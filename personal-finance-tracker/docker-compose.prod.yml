@@ -1,0 +1,8 @@
+services:
+  backend:
+    command: npm start
+
+  frontend:
+    build:
+      context: ./frontend
+      target: production
