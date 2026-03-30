@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Social Media API</title>
+</head>
+<body>
+
+  <h1>Social Media Posts</h1>
+
+  <!-- Create Post -->
+  <h2>Create Post</h2>
+  <form action="/posts" method="POST">
+
+    <input type="text" name="title" placeholder="Title" required><br><br>
+
+    <textarea name="content" placeholder="Content" required></textarea><br><br>
+
+    <input type="text" name="author" placeholder="Author" required><br><br>
+
+    <button type="submit">Create Post</button>
+
+  </form>
+
+  <hr>
+
+  <!-- Display Posts -->
+  <h2>All Posts</h2>
+  <div id="posts"></div>
+
+  <script>
+    async function loadPosts() {
+      const response = await fetch('/posts');
+      const posts = await response.json();
+      const postsDiv = document.getElementById('posts');
+      postsDiv.innerHTML = posts.map(post => `
+        <div>
+          <h3>${post.title}</h3>
+          <p>${post.content}</p>
+          <p>By: ${post.author}</p>
+          <p>Likes: ${post.likes}</p>
+          <form action="/posts/${post._id}/like" method="POST" style="display:inline;">
+            <button type="submit">Like</button>
+          </form>
+        </div>
+        <hr>
+      `).join('');
+    }
+
+    loadPosts();
+  </script>
+
+</body>
+</html>
